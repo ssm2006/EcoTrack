@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EcoTrack{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="{{ url_for('index') }}" class="brand">
+            <span class="brand-dot"></span>EcoTrack
+        </a>
+        <nav>
+            <a href="{{ url_for('index') }}">Log Activity</a>
+            <a href="{{ url_for('about') }}">About</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>EcoTrack — Personal Carbon Footprint Assistant &nbsp;·&nbsp; Estimates for awareness purposes only.</p>
+    </footer>
+</body>
+</html>

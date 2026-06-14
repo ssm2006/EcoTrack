@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Your Results — EcoTrack{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Hi {{ username }}, here's today's snapshot</h2>
+
+    <div class="total-box">
+        <span class="total-number">{{ breakdown.total }}</span>
+        <span class="total-unit">kg CO₂e</span>
+    </div>
+
+    <p class="yearly-proj">At this rate, your yearly footprint would be <strong>{{ yearly }} kg CO₂e</strong></p>
+
+    <p class="summary-msg">{{ summary }}</p>
+
+    <div class="section-label">Breakdown</div>
+    <div class="breakdown-grid">
+        <div class="bk-item">
+            <div class="bk-icon">🚗</div>
+            <div class="bk-label">Transport</div>
+            <div class="bk-val">{{ breakdown.transport }}</div>
+        </div>
+        <div class="bk-item">
+            <div class="bk-icon">⚡</div>
+            <div class="bk-label">Electricity</div>
+            <div class="bk-val">{{ breakdown.electricity }}</div>
+        </div>
+        <div class="bk-item">
+            <div class="bk-icon">🍽️</div>
+            <div class="bk-label">Diet</div>
+            <div class="bk-val">{{ breakdown.diet }}</div>
+        </div>
+        <div class="bk-item">
+            <div class="bk-icon">🗑️</div>
+            <div class="bk-label">Waste</div>
+            <div class="bk-val">{{ breakdown.waste }}</div>
+        </div>
+    </div>
+
+    <div class="bar-row">
+        <span class="bar-label">🚗 Transport</span>
+        <div class="bar-track"><div class="bar-fill" style="width:{{ (breakdown.transport / breakdown.total * 100)|round|int if breakdown.total > 0 else 0 }}%; background: linear-gradient(90deg,#1565c0,#42a5f5)"></div></div>
+        <span class="bar-val">{{ breakdown.transport }}</span>
+    </div>
+    <div class="bar-row">
+        <span class="bar-label">⚡ Electricity</span>
+        <div class="bar-track"><div class="bar-fill" style="width:{{ (breakdown.electricity / breakdown.total * 100)|round|int if breakdown.total > 0 else 0 }}%; background: linear-gradient(90deg,#f57f17,#ffca28)"></div></div>
+        <span class="bar-val">{{ breakdown.electricity }}</span>
+    </div>
+    <div class="bar-row">
+        <span class="bar-label">🍽️ Diet</span>
+        <div class="bar-track"><div class="bar-fill" style="width:{{ (breakdown.diet / breakdown.total * 100)|round|int if breakdown.total > 0 else 0 }}%; background: linear-gradient(90deg,#2e7d32,#00c853)"></div></div>
+        <span class="bar-val">{{ breakdown.diet }}</span>
+    </div>
+    <div class="bar-row">
+        <span class="bar-label">🗑️ Waste</span>
+        <div class="bar-track"><div class="bar-fill" style="width:{{ (breakdown.waste / breakdown.total * 100)|round|int if breakdown.total > 0 else 0 }}%; background: linear-gradient(90deg,#6a1b9a,#ab47bc)"></div></div>
+        <span class="bar-val">{{ breakdown.waste }}</span>
+    </div>
+</section>
+
+<section class="card">
+    <h3>💡 Personalized Recommendations</h3>
+    <p class="focus-box"><strong>Focus area: {{ recommendations.focus_label }}</strong> — {{ recommendations.focus_reason }}</p>
+
+    <ul class="tips-list">
+        {% for tip in recommendations.tips %}
+            <li>
+                <span class="tip-category">[{{ tip.category.title() }}]</span>{{ tip.tip }}
+                <span class="tip-saving">~{{ tip.saving }} kg CO₂e/day potential saving</span>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+<div class="actions">
+    <a href="{{ url_for('dashboard', username=username) }}" class="btn">View Dashboard →</a>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">← Log Another Day</a>
+</div>
+{% endblock %}

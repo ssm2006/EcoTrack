@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}EcoTrack — Log Your Day{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Track your carbon footprint</h1>
+    <p>Answer a few quick questions about today and get personalized, practical tips to lower your impact.</p>
+</section>
+
+<form method="POST" class="card form">
+    <label class="username-label" for="username">Your nickname</label>
+    <input class="username-input" type="text" id="username" name="username" placeholder="e.g. asha" maxlength="40" required>
+
+    <div class="section-head">🚗 Transport</div>
+
+    <div class="row2">
+        <div>
+            <label for="transport_mode">Travel mode</label>
+            <select id="transport_mode" name="transport_mode">
+                {% for mode, factor in factors.transport.items() %}
+                    <option value="{{ mode }}">{{ mode.replace('_', ' ').title() }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="transport_km">Distance (km)</label>
+            <input type="number" id="transport_km" name="transport_km" min="0" step="0.1" value="0" required>
+        </div>
+    </div>
+
+    <div class="section-head">⚡ Electricity</div>
+    <label for="electricity_kwh">Estimated kWh used today</label>
+    <input type="number" id="electricity_kwh" name="electricity_kwh" min="0" step="0.1" value="0" required>
+    <small>Average household: 8–12 kWh/day</small>
+
+    <div class="section-head">🍽️ Diet</div>
+    <label for="diet">Today's eating pattern</label>
+    <select id="diet" name="diet">
+        {% for d in factors.diet %}
+            <option value="{{ d }}">{{ d.replace('_', ' ').title() }}</option>
+        {% endfor %}
+    </select>
+
+    <div class="section-head">🗑️ Waste</div>
+    <label for="waste_kg">Unsorted / non-recycled waste (kg)</label>
+    <input type="number" id="waste_kg" name="waste_kg" min="0" step="0.1" value="0" required>
+
+    <button type="submit" class="btn">Calculate my footprint →</button>
+</form>
+{% endblock %}

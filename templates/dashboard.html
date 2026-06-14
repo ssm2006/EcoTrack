@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — EcoTrack{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>{{ username }}'s footprint history</h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:0.875rem;margin-bottom:1.25rem">
+        Average: <strong style="color:#00c853">{{ avg }} kg CO₂e/day</strong> over {{ history|length }} logged day(s)
+    </p>
+    <canvas id="historyChart" height="110"></canvas>
+</section>
+
+<section class="card">
+    <h3>Recent entries</h3>
+    <table class="breakdown-table">
+        <tr>
+            <th>Date</th><th>Transport</th><th>Electricity</th><th>Diet</th><th>Waste</th><th>Total</th>
+        </tr>
+        {% for h in history[-10:] | reverse %}
+        <tr>
+            <td>{{ h.date }}</td>
+            <td>{{ h.transport }}</td>
+            <td>{{ h.electricity }}</td>
+            <td>{{ h.diet }}</td>
+            <td>{{ h.waste }}</td>
+            <td><strong>{{ h.total }}</strong></td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>
+
+<div class="actions">
+    <a href="{{ url_for('index') }}" class="btn">← Log Another Day</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+    const ctx = document.getElementById('historyChart');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ labels | tojson }},
+            datasets: [{
+                label: 'Daily CO₂e (kg)',
+                data: {{ totals | tojson }},
+                borderColor: '#00c853',
+                backgroundColor: 'rgba(0,200,83,0.08)',
+                borderWidth: 2,
+                tension: 0.35,
+                fill: true,
+                pointBackgroundColor: '#00c853',
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(10,22,40,0.9)',
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    borderWidth: 1,
+                    titleColor: 'rgba(255,255,255,0.7)',
+                    bodyColor: '#00c853',
+                    padding: 10
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 11 } }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 11 }, maxRotation: 0 }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}About — EcoTrack{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>About EcoTrack</h2>
+    <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;margin:0.75rem 0 1.5rem">
+        A smart assistant that helps you understand, track, and reduce your personal carbon footprint through everyday actions.
+    </p>
+
+    <h3>How it works</h3>
+    <ol class="about-list">
+        <li>Log four simple daily inputs: transport, electricity, diet, and waste.</li>
+        <li>The calculator converts your inputs to kg CO₂e using published emission factors.</li>
+        <li>A rule-based engine identifies your biggest contributor or fastest-growing category.</li>
+        <li>You receive 2–3 ranked, practical tips tailored to that category.</li>
+        <li>Your history is saved per nickname so you can track progress over time.</li>
+    </ol>
+
+    <h3 style="margin-top:1.5rem">Assumptions &amp; Limitations</h3>
+    <ul class="about-list">
+        <li>Emission factors are global averages and may vary by region and energy grid.</li>
+        <li>Diet emissions are estimated as a daily average per eating pattern, not per meal.</li>
+        <li>This tool is for awareness and habit-building, not precise carbon accounting.</li>
+        <li>No authentication — history is stored by nickname in local JSON files (demo only).</li>
+    </ul>
+</section>
+{% endblock %}

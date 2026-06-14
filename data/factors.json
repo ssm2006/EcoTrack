@@ -1,0 +1,28 @@
+{
+  "transport": {
+    "car_petrol": 0.192,
+    "car_diesel": 0.171,
+    "car_electric": 0.053,
+    "bus": 0.105,
+    "train": 0.041,
+    "bike": 0.0,
+    "walk": 0.0,
+    "flight_domestic": 0.246,
+    "flight_international": 0.195
+  },
+  "electricity_kg_per_kwh": 0.475,
+  "diet": {
+    "high_meat": 3.3,
+    "medium_meat": 2.5,
+    "low_meat": 1.9,
+    "vegetarian": 1.7,
+    "vegan": 1.5
+  },
+  "waste_kg_per_kg": 0.57,
+  "units": {
+    "transport": "kg CO2e per km",
+    "electricity_kg_per_kwh": "kg CO2e per kWh consumed",
+    "diet": "kg CO2e per day (based on diet pattern)",
+    "waste_kg_per_kg": "kg CO2e per kg of unsorted/non-recycled waste"
+  }
+}
